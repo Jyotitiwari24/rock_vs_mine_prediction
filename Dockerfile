@@ -1,15 +1,13 @@
-# Base image
 FROM python:3.11-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/ ./src
 COPY data/ ./data
 
-# Default command
-CMD ["python", "src/predict.py"]
+EXPOSE 8000
+
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
